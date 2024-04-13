@@ -1,0 +1,30 @@
+===
+Header
+===
+ScriptName TestScript extends Actor Native
+
+---
+
+(source_file
+  (header
+    (identifier)
+    (identifier)
+    (scriptflag)
+  )
+)
+===
+Header with multiple tags
+===
+ScriptName TestScript extends Actor Native Hidden Const
+
+---
+
+(source_file
+  (header
+    (identifier)
+    (identifier)
+    (scriptflag)
+    (scriptflag)
+    (scriptflag)
+  )
+)

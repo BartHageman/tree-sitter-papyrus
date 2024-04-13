@@ -1,0 +1,17 @@
+===
+Import
+===
+ScriptName TestScript extends Actor Native
+import Stuff
+---
+
+(source_file
+  (header
+    (identifier)
+    (identifier)
+    (scriptflag)
+  )
+  (import
+    (identifier)
+  )
+)

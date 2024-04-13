@@ -1,0 +1,40 @@
+===
+Variable Definition
+===
+ScriptName TestScript extends Actor Native
+Bool banjokazooie
+---
+
+(source_file
+  (header
+    (identifier)
+    (identifier)
+    (scriptflag)
+  )
+  (variable_definition
+    (type)
+    (identifier)
+  )
+)
+===
+Import & Variable
+===
+ScriptName TestScript extends Actor Native
+import deeznuts
+Bool banjokazooie
+---
+
+(source_file
+  (header
+    (identifier)
+    (identifier)
+    (scriptflag)
+  )
+  (import
+    (identifier)
+  )
+  (variable_definition
+    (type)
+    (identifier)
+  )
+)
