@@ -32,11 +32,15 @@
                 "members": [
                   {
                     "type": "SYMBOL",
-                    "name": "variable_definition"
+                    "name": "script_variable"
                   },
                   {
                     "type": "SYMBOL",
                     "name": "import"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "function"
                   }
                 ]
               }
@@ -110,9 +114,22 @@
         }
       ]
     },
-    "identifier": {
-      "type": "PATTERN",
-      "value": "[a-zA-Z_][a-zA-Z0-9_]*"
+    "varflag": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "PATTERN",
+          "value": "[cC][oO][nN][dD][iI][tT][iI][oO][nN][aA][lL]"
+        },
+        {
+          "type": "PATTERN",
+          "value": "[cC][oO][nN][sS][tT]"
+        },
+        {
+          "type": "PATTERN",
+          "value": "[hH][iI][dD][dD][eE][nN]"
+        }
+      ]
     },
     "scriptflag": {
       "type": "CHOICE",
@@ -147,6 +164,44 @@
         }
       ]
     },
+    "functionflag": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "PATTERN",
+          "value": "[nN][aA][tT][iI][vV][eE]"
+        },
+        {
+          "type": "PATTERN",
+          "value": "[gG][lL][oO][bB][aA][lL]"
+        }
+      ]
+    },
+    "int": {
+      "type": "PATTERN",
+      "value": "[0-9]+"
+    },
+    "float": {
+      "type": "PATTERN",
+      "value": "[0-9]+(\\.[0-9]+)?"
+    },
+    "string": {
+      "type": "PATTERN",
+      "value": "\".*\""
+    },
+    "bool": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "PATTERN",
+          "value": "[tT][rR][uU][eE]"
+        },
+        {
+          "type": "PATTERN",
+          "value": "[fF][aA][lL][sS][eE]"
+        }
+      ]
+    },
     "type": {
       "type": "SEQ",
       "members": [
@@ -173,7 +228,80 @@
         }
       ]
     },
-    "variable_definition": {
+    "function_header": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "type"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "PATTERN",
+          "value": "[fF][uU][nN][cC][tT][iI][oO][nN]"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "SYMBOL",
+          "name": "parameters"
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "functionflag"
+          }
+        },
+        {
+          "type": "PATTERN",
+          "value": "\\r?\\n"
+        }
+      ]
+    },
+    "parameters": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "parameter"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": ","
+              },
+              {
+                "type": "SYMBOL",
+                "name": "parameter"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "parameter": {
       "type": "SEQ",
       "members": [
         {
@@ -183,25 +311,121 @@
         {
           "type": "SYMBOL",
           "name": "identifier"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "="
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "constant"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
-    "varflag": {
+    "function": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "function_header"
+        },
+        {
+          "type": "PATTERN",
+          "value": "[eE][nN][dD][fF][uU][nN][cC][tT][iI][oO][nN]"
+        }
+      ]
+    },
+    "statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": ""
+        },
+        {
+          "type": "PATTERN",
+          "value": "\\r?\\n"
+        }
+      ]
+    },
+    "script_variable": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "type"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "="
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "constant"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "varflag"
+          }
+        }
+      ]
+    },
+    "constant": {
       "type": "CHOICE",
       "members": [
         {
-          "type": "PATTERN",
-          "value": "[cC][oO][nN][dD][iI][tT][iI][oO][nN][aA][lL]"
+          "type": "SYMBOL",
+          "name": "int"
         },
         {
-          "type": "PATTERN",
-          "value": "[cC][oO][nN][sS][tT]"
+          "type": "SYMBOL",
+          "name": "float"
         },
         {
-          "type": "PATTERN",
-          "value": "[hH][iI][dD][dD][eE][nN]"
+          "type": "SYMBOL",
+          "name": "string"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "bool"
         }
       ]
+    },
+    "identifier": {
+      "type": "PATTERN",
+      "value": "[a-zA-Z_][a-zA-Z0-9_]*"
     }
   },
   "extras": [
@@ -212,6 +436,10 @@
     {
       "type": "STRING",
       "value": "\t"
+    },
+    {
+      "type": "STRING",
+      "value": "\\"
     }
   ],
   "conflicts": [],
@@ -220,3 +448,4 @@
   "inline": [],
   "supertypes": []
 }
+

@@ -1,5 +1,5 @@
 ===
-Variable Definition
+Script Variable, no definition
 ===
 ScriptName TestScript extends Actor Native
 Bool banjokazooie
@@ -11,7 +11,7 @@ Bool banjokazooie
     (identifier)
     (scriptflag)
   )
-  (variable_definition
+  (script_variable
     (type)
     (identifier)
   )
@@ -33,8 +33,47 @@ Bool banjokazooie
   (import
     (identifier)
   )
-  (variable_definition
+  (script_variable
     (type)
     (identifier)
+  )
+)
+===
+Script Variable with assignment
+===
+ScriptName TestScript extends Actor Native
+float banjokazooie = 0.0
+Bool banjokazooie = true Const
+int banjokazooie = 0 Hidden
+---
+
+(source_file
+  (header
+    (identifier)
+    (identifier)
+    (scriptflag)
+  )
+  (script_variable
+    (type)
+    (identifier)
+    (constant
+      (float)
+    )
+  )
+  (script_variable
+    (type)
+    (identifier)
+    (constant
+      (bool)
+    )
+    (varflag)
+  )
+  (script_variable
+    (type)
+    (identifier)
+    (constant
+      (int)
+    )
+    (varflag)
   )
 )

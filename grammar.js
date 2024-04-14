@@ -1,6 +1,6 @@
 module.exports = grammar({
   name: 'Papyrus',
-  "extras": $ => [' ', '\t'],
+  "extras": $ => [' ', '\t', '\\'],
   rules: {
     "source_file": $ => seq(
       repeat(/\r?\n/),
@@ -9,8 +9,9 @@ module.exports = grammar({
         seq(
           repeat(/\r?\n/),
           choice(
-            $.variable_definition,
+            $.script_variable,
             $.import,
+            $.function,
             // TODO: Add more
           ),
           )
@@ -30,7 +31,11 @@ module.exports = grammar({
       /\r?\n/
     ),
     "import": $ => seq(caseInsensitive("import"), $.identifier),
-    "identifier": $ => /[a-zA-Z_][a-zA-Z0-9_]*/,
+    "varflag": $ => choice(
+        caseInsensitive("Conditional"),
+        caseInsensitive("Const"),
+        caseInsensitive("Hidden"),
+    ),
     "scriptflag": $ => choice(
         caseInsensitive("Conditional"),
         caseInsensitive("Const"),
@@ -40,26 +45,61 @@ module.exports = grammar({
         caseInsensitive("Native"),
         caseInsensitive("Default"),
     ),
+    "functionflag": $ => choice(
+        caseInsensitive("Native"),
+        caseInsensitive("Global"),
+    ),
+    "int": $ => /[0-9]+/,
+    "float": $ => /[0-9]+(\.[0-9]+)?/,
+    "string": $ => /".*"/,
+    "bool": $ => choice(caseInsensitive("true"), caseInsensitive("false")),
     "type": $ => seq(
       alias($.identifier, "type"),
       optional("[]")
     ),
-    "variable_definition": $ => seq(
+    "function_header": $ => seq(
+      optional($.type),
+      caseInsensitive("function"),
+      $.identifier,
+      "(",
+      $.parameters,
+      ")",
+      repeat($.functionflag),
+      /\r?\n/
+    ),
+    "parameters": $ => seq(
+      $.parameter,
+      repeat(
+        seq(
+          ",",
+          $.parameter
+        )
+      )
+    ),
+    "parameter": $ => seq(
+        $.type,
+        $.identifier,
+        optional(seq("=", $.constant))
+    ),
+    "function": $ => seq(
+      $.function_header,
+      //repeat($.statement), // TODO: statements
+      caseInsensitive("endfunction")
+    ),
+    "statement": $ => seq("", /\r?\n/), // TODO: Write statement parser
+    "script_variable": $ => seq(
       $.type,
       $.identifier,
       optional(seq('=', $.constant)),
-      //repeat($.varflag)
+      repeat($.varflag),
       ),
-    "varflag": $ => choice(
-        caseInsensitive("Conditional"),
-        caseInsensitive("Const"),
-        caseInsensitive("Hidden"),
-    ),
       "constant": $ => choice(
-        $.number,
+        $.int,
+        $.float,
         $.string,
-        $.boolean,
-    )
+        $.bool,
+    ),
+    "identifier": $ => /[a-zA-Z_][a-zA-Z0-9_]*/,
   }
 });
 function toCaseInsensitive(a) {

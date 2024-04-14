@@ -30,7 +30,7 @@ bool x
   (import
     (identifier)
   )
-  (variable_definition
+  (script_variable
     (type)
     (identifier)
   )

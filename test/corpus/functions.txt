@@ -1,0 +1,26 @@
+===
+Function
+===
+ScriptName TestScript extends Actor Native
+Function Test(int killme)
+EndFunction
+---
+
+(source_file
+  (header
+    (identifier)
+    (identifier)
+    (scriptflag)
+  )
+  (function
+    (function_header
+      (identifier)
+      (parameters
+        (parameter
+          (type)
+          (identifier)
+        )
+      )
+    )
+  )
+)
