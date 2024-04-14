@@ -1,20 +1,21 @@
 module.exports = grammar({
   name: 'Papyrus',
   "extras": $ => [' ', '\t'],
-  "conflicts": $ => [[$.import, $.variable_definition]],
   rules: {
     "source_file": $ => seq(
-      $.header, 
+      repeat(/\r?\n/),
+      $.header,
       repeat(
         seq(
-          optional(/\r\n/),
+          repeat(/\r?\n/),
           choice(
             $.variable_definition,
             $.import,
             // TODO: Add more
           ),
           )
-      )
+      ),
+      repeat(/\r?\n/),
     ),
     "header": $ => seq(
       caseInsensitive("ScriptName"),
@@ -26,7 +27,7 @@ module.exports = grammar({
         )
       ),
       repeat($.scriptflag),
-      /\r\n/
+      /\r?\n/
     ),
     "import": $ => seq(caseInsensitive("import"), $.identifier),
     "identifier": $ => /[a-zA-Z_][a-zA-Z0-9_]*/,
@@ -46,7 +47,7 @@ module.exports = grammar({
     "variable_definition": $ => seq(
       $.type,
       $.identifier,
-      //optional(seq('=', $.constant)),
+      optional(seq('=', $.constant)),
       //repeat($.varflag)
       ),
     "varflag": $ => choice(
@@ -54,6 +55,11 @@ module.exports = grammar({
         caseInsensitive("Const"),
         caseInsensitive("Hidden"),
     ),
+      "constant": $ => choice(
+        $.number,
+        $.string,
+        $.boolean,
+    )
   }
 });
 function toCaseInsensitive(a) {

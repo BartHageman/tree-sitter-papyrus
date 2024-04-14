@@ -5,6 +5,13 @@
       "type": "SEQ",
       "members": [
         {
+          "type": "REPEAT",
+          "content": {
+            "type": "PATTERN",
+            "value": "\\r?\\n"
+          }
+        },
+        {
           "type": "SYMBOL",
           "name": "header"
         },
@@ -14,16 +21,11 @@
             "type": "SEQ",
             "members": [
               {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "PATTERN",
-                    "value": "\\r\\n"
-                  },
-                  {
-                    "type": "BLANK"
-                  }
-                ]
+                "type": "REPEAT",
+                "content": {
+                  "type": "PATTERN",
+                  "value": "\\r?\\n"
+                }
               },
               {
                 "type": "CHOICE",
@@ -39,6 +41,13 @@
                 ]
               }
             ]
+          }
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "PATTERN",
+            "value": "\\r?\\n"
           }
         }
       ]
@@ -84,7 +93,7 @@
         },
         {
           "type": "PATTERN",
-          "value": "\\r\\n"
+          "value": "\\r?\\n"
         }
       ]
     },
@@ -205,15 +214,9 @@
       "value": "\t"
     }
   ],
-  "conflicts": [
-    [
-      "import",
-      "variable_definition"
-    ]
-  ],
+  "conflicts": [],
   "precedences": [],
   "externals": [],
   "inline": [],
   "supertypes": []
 }
-

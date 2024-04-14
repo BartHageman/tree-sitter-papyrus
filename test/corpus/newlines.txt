@@ -1,0 +1,89 @@
+===
+newlines multiple
+===
+
+
+
+
+scriptname testscript extends actor native
+
+
+
+
+
+import stuff
+
+
+
+bool x
+
+
+
+---
+
+(source_file
+  (header
+    (identifier)
+    (identifier)
+    (scriptflag)
+  )
+  (import
+    (identifier)
+  )
+  (variable_definition
+    (type)
+    (identifier)
+  )
+)
+
+
+===
+newlines between
+===
+scriptname testscript extends actor native
+
+
+
+
+
+import stuff
+---
+
+(source_file
+  (header
+    (identifier)
+    (identifier)
+    (scriptflag)
+  )
+  (import
+    (identifier)
+  )
+)
+===
+Newlines below
+===
+ScriptName TestScript extends Actor Native
+import Stuff
+
+
+
+
+
+
+
+
+
+
+
+---
+
+(source_file
+  (header
+    (identifier)
+    (identifier)
+    (scriptflag)
+  )
+  (import
+    (identifier)
+  )
+)
