@@ -1,0 +1,23 @@
+===
+Expression
+===
+ScriptName TestScript extends Actor Native
+
+Function Test()
+2 + 4 * 10
+EndFunction
+---
+
+(source_file
+  (header
+    (identifier)
+    (identifier)
+    (scriptflag)
+  )
+  (function
+    (identifier)
+    (statement
+      (expression)
+    )
+  )
+)

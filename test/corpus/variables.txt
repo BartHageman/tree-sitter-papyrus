@@ -64,7 +64,7 @@ int banjokazooie = 0 Hidden
     (type)
     (identifier)
     (constant
-      (bool)
+      (boolean)
     )
     (varflag)
   )
@@ -72,7 +72,7 @@ int banjokazooie = 0 Hidden
     (type)
     (identifier)
     (constant
-      (int)
+      (integer)
     )
     (varflag)
   )

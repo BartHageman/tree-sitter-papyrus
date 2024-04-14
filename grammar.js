@@ -1,6 +1,7 @@
 module.exports = grammar({
   name: 'Papyrus',
-  "extras": $ => [' ', '\t', '\\'],
+  "extras": $ => [' ', '\t', /\\\r?\n/],
+  "word": $ => $.identifier,
   rules: {
     "source_file": $ => seq(
       repeat(/\r?\n/),
@@ -49,10 +50,11 @@ module.exports = grammar({
         caseInsensitive("Native"),
         caseInsensitive("Global"),
     ),
-    "int": $ => /[0-9]+/,
+    "integer": $ => /[0-9]+/,
     "float": $ => /[0-9]+(\.[0-9]+)?/,
     "string": $ => /".*"/,
-    "bool": $ => choice(caseInsensitive("true"), caseInsensitive("false")),
+    "boolean": $ => choice(caseInsensitive("true"), caseInsensitive("false")),
+    "none": $ => caseInsensitive("none"),
     "type": $ => seq(
       alias($.identifier, "type"),
       optional("[]")
@@ -83,10 +85,12 @@ module.exports = grammar({
     ),
     "function": $ => seq(
       $.function_header,
-      //repeat($.statement), // TODO: statements
+      repeat($.statement), // TODO: statements
       caseInsensitive("endfunction")
     ),
-    "statement": $ => seq("", /\r?\n/), // TODO: Write statement parser
+    "statement": $ => seq(choice(
+      $._expression
+    ), /\r?\n/), // TODO: Write statement parser
     "script_variable": $ => seq(
       $.type,
       $.identifier,
@@ -94,10 +98,63 @@ module.exports = grammar({
       repeat($.varflag),
       ),
       "constant": $ => choice(
-        $.int,
+        $.integer,
         $.float,
         $.string,
-        $.bool,
+        $.boolean,
+        $.none,
+    ),
+    "_expression": $ => choice(
+      $.identifier,
+      $.unary_expression,
+      $.binary_expression,
+      $.function_call,
+      $.constant,
+      $.cast_expression,
+      $.parenthesized_expression,
+      $.new_expression,
+      $.array_expression,
+      caseInsensitive("length"),
+    ),
+    "parenthesized_expression": $ => seq(
+      '(',
+      $._expression,
+      ')'
+    ),
+    "new_expression": $ => seq(caseInsensitive("new"), $.type, '[', $.integer, ']'),
+    "array_expression": $ => seq($._expression, '[', $._expression, ']'),
+    "function_call": $ => seq(
+      $._expression,
+      '(',
+      optional($.call_parameters),
+      ')',
+    ),
+    "call_parameters": $ => seq(
+      $.call_parameter,
+      repeat(seq(",", $.call_parameter))
+    ),
+    "call_parameter": $ => seq(
+      optional(seq($.identifier, "=")),
+      $._expression,
+    ),
+    "cast_expression": $ => seq($._expression, caseInsensitive("as"), $.type),
+    "unary_expression": $ => choice(
+      seq("-", $._expression),
+      seq("!", $._expression)
+    ),
+    "binary_expression": $ => choice(
+      seq($._expression, "||", $._expression),
+      seq($._expression, "&&", $._expression),
+      seq($._expression, "<", $._expression),
+      seq($._expression, ">", $._expression),
+      seq($._expression, "<=", $._expression),
+      seq($._expression, ">=", $._expression),
+      seq($._expression, "+", $._expression),
+      seq($._expression, "-", $._expression),
+      seq($._expression, "*", $._expression),
+      seq($._expression, "/", $._expression),
+      seq($._expression, "%", $._expression),
+      seq($._expression, ".", $._expression),
     ),
     "identifier": $ => /[a-zA-Z_][a-zA-Z0-9_]*/,
   }
