@@ -15,9 +15,48 @@ EndFunction
     (scriptflag)
   )
   (function
-    (identifier)
+    (function_header (identifier))
     (statement
-      (expression)
+      (binary_expression
+        (constant
+          (integer)
+        )
+        (binary_expression
+          (constant (integer))
+          (constant (integer))
+        )
+      )
+    )
+  )
+)
+===
+Function
+===
+ScriptName TestScript extends Actor Native
+
+Function Test()
+(Game.GetPlayer()) as Actor
+EndFunction
+---
+
+(source_file
+  (header
+    (identifier)
+    (identifier)
+    (scriptflag)
+  )
+  (function
+    (function_header (identifier))
+    (statement
+      (binary_expression
+        (constant
+          (integer)
+        )
+        (binary_expression
+          (constant (integer))
+          (constant (integer))
+        )
+      )
     )
   )
 )

@@ -64,7 +64,7 @@ module.exports = grammar({
       caseInsensitive("function"),
       $.identifier,
       "(",
-      $.parameters,
+      optional($.parameters),
       ")",
       repeat($.functionflag),
       /\r?\n/
@@ -88,7 +88,7 @@ module.exports = grammar({
       repeat($.statement), // TODO: statements
       caseInsensitive("endfunction")
     ),
-    "statement": $ => seq(choice(
+    "statement": $ => seq(optional(
       $._expression
     ), /\r?\n/), // TODO: Write statement parser
     "script_variable": $ => seq(
@@ -114,21 +114,22 @@ module.exports = grammar({
       $.parenthesized_expression,
       $.new_expression,
       $.array_expression,
+      $.dot_expression,
       caseInsensitive("length"),
     ),
-    "parenthesized_expression": $ => seq(
+    "parenthesized_expression": $ => prec.left(8, seq(
       '(',
       $._expression,
       ')'
-    ),
+    )),
     "new_expression": $ => seq(caseInsensitive("new"), $.type, '[', $.integer, ']'),
-    "array_expression": $ => seq($._expression, '[', $._expression, ']'),
-    "function_call": $ => seq(
+    "array_expression": $ => prec.left(9, seq($._expression, '[', $._expression, ']')),
+    "function_call": $ => prec.left(10, seq(
       $._expression,
       '(',
       optional($.call_parameters),
       ')',
-    ),
+    )),
     "call_parameters": $ => seq(
       $.call_parameter,
       repeat(seq(",", $.call_parameter))
@@ -137,24 +138,28 @@ module.exports = grammar({
       optional(seq($.identifier, "=")),
       $._expression,
     ),
-    "cast_expression": $ => seq($._expression, caseInsensitive("as"), $.type),
-    "unary_expression": $ => choice(
-      seq("-", $._expression),
-      seq("!", $._expression)
+    "dot_expression": $ => prec.left(7, seq($._expression, seq(".", $._expression))),
+    "cast_expression": $ => prec.left(6, seq($._expression, caseInsensitive("as"), $.type)),
+    "unary_expression": $ => prec(5,
+      choice(
+        seq("-", $._expression),
+        seq("!", $._expression)
+      )
     ),
     "binary_expression": $ => choice(
-      seq($._expression, "||", $._expression),
-      seq($._expression, "&&", $._expression),
-      seq($._expression, "<", $._expression),
-      seq($._expression, ">", $._expression),
-      seq($._expression, "<=", $._expression),
-      seq($._expression, ">=", $._expression),
-      seq($._expression, "+", $._expression),
-      seq($._expression, "-", $._expression),
-      seq($._expression, "*", $._expression),
-      seq($._expression, "/", $._expression),
-      seq($._expression, "%", $._expression),
-      seq($._expression, ".", $._expression),
+      prec.left(1, seq($._expression, "||", $._expression)),
+      prec.left(1, seq($._expression, "&&", $._expression)),
+      prec.left(2, seq($._expression, "<", $._expression)),
+      prec.left(2, seq($._expression, ">", $._expression)),
+      prec.left(2, seq($._expression, "<=", $._expression)),
+      prec.left(2, seq($._expression, ">=", $._expression)),
+      prec.left(2, seq($._expression, "==", $._expression)),
+      prec.left(2, seq($._expression, "!=", $._expression)),
+      prec.left(3, seq($._expression, "+", $._expression)),
+      prec.left(3, seq($._expression, "-", $._expression)),
+      prec.left(4, seq($._expression, "*", $._expression)),
+      prec.left(4, seq($._expression, "/", $._expression)),
+      prec.left(4, seq($._expression, "%", $._expression)),
     ),
     "identifier": $ => /[a-zA-Z_][a-zA-Z0-9_]*/,
   }
