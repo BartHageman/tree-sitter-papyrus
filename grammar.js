@@ -62,7 +62,7 @@ module.exports = grammar({
     "function_header": $ => seq(
       optional($.type),
       caseInsensitive("function"),
-      $.identifier,
+      field("name", $.identifier),
       "(",
       optional($.parameters),
       ")",
@@ -83,8 +83,8 @@ module.exports = grammar({
         $.identifier,
         optional(seq("=", $.constant))
     ),
-    "function": $ => seq(
-      $.function_header,
+    "function_definition": $ => seq(
+      field("header", $.function_header),
       repeat($.statement), // TODO: statements
       caseInsensitive("endfunction")
     ),
