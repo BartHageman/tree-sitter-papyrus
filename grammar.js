@@ -14,12 +14,14 @@
 // @ts-check
 
 // Case-insensitive keyword token. Higher prec than identifier.
+// Aliased to a lowercase anonymous string node so queries can capture it
+// by literal name (e.g. `"if" @keyword.conditional`).
 function kw(word) {
   const pattern = word
     .split('')
     .map(c => /[a-zA-Z]/.test(c) ? `[${c.toLowerCase()}${c.toUpperCase()}]` : c)
     .join('');
-  return token(prec(2, new RegExp(pattern)));
+  return alias(token(prec(2, new RegExp(pattern))), word.toLowerCase());
 }
 
 // Comma-separated list (>=1)

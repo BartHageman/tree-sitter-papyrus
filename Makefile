@@ -96,4 +96,12 @@ clean:
 test:
 	$(TS) test
 
-.PHONY: all install uninstall clean test
+# Neovim users: this produces a parser/papyrus.so that Neovim discovers
+# directly from this repo when it lives on 'runtimepath'.
+nvim: parser/papyrus.$(SOEXT)
+
+parser/papyrus.$(SOEXT): $(PARSER) $(EXTRAS)
+	@mkdir -p parser
+	$(CC) -Os -shared -fPIC -I$(SRC_DIR) $^ -o $@
+
+.PHONY: all install uninstall clean test nvim

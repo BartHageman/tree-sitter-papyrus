@@ -1781,6 +1781,11 @@
     }
   },
   {
+    "type": "none_literal",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "parameter",
     "named": true,
     "fields": {
@@ -1850,6 +1855,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "parent_expression",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "parenthesized_expression",
@@ -2123,6 +2133,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "self_expression",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "source_file",
@@ -2861,29 +2876,169 @@
     "named": false
   },
   {
+    "type": "as",
+    "named": false
+  },
+  {
+    "type": "auto",
+    "named": false
+  },
+  {
+    "type": "autoreadonly",
+    "named": false
+  },
+  {
+    "type": "betaonly",
+    "named": false
+  },
+  {
     "type": "block_comment",
     "named": true,
     "extra": true
+  },
+  {
+    "type": "bool",
+    "named": false
+  },
+  {
+    "type": "collapsed",
+    "named": false
+  },
+  {
+    "type": "collapsedonbase",
+    "named": false
+  },
+  {
+    "type": "collapsedonref",
+    "named": false
+  },
+  {
+    "type": "conditional",
+    "named": false
+  },
+  {
+    "type": "const",
+    "named": false
+  },
+  {
+    "type": "customevent",
+    "named": false
+  },
+  {
+    "type": "debugonly",
+    "named": false
+  },
+  {
+    "type": "default",
+    "named": false
   },
   {
     "type": "docstring",
     "named": true
   },
   {
+    "type": "else",
+    "named": false
+  },
+  {
+    "type": "elseif",
+    "named": false
+  },
+  {
+    "type": "endevent",
+    "named": false
+  },
+  {
+    "type": "endfunction",
+    "named": false
+  },
+  {
+    "type": "endgroup",
+    "named": false
+  },
+  {
+    "type": "endif",
+    "named": false
+  },
+  {
+    "type": "endproperty",
+    "named": false
+  },
+  {
+    "type": "endstate",
+    "named": false
+  },
+  {
+    "type": "endstruct",
+    "named": false
+  },
+  {
+    "type": "endwhile",
+    "named": false
+  },
+  {
     "type": "escape_sequence",
     "named": true
+  },
+  {
+    "type": "event",
+    "named": false
+  },
+  {
+    "type": "extends",
+    "named": false
+  },
+  {
+    "type": "false",
+    "named": false
+  },
+  {
+    "type": "float",
+    "named": false
   },
   {
     "type": "float_literal",
     "named": true
   },
   {
+    "type": "function",
+    "named": false
+  },
+  {
+    "type": "global",
+    "named": false
+  },
+  {
+    "type": "group",
+    "named": false
+  },
+  {
+    "type": "hidden",
+    "named": false
+  },
+  {
     "type": "identifier",
     "named": true
   },
   {
+    "type": "if",
+    "named": false
+  },
+  {
+    "type": "import",
+    "named": false
+  },
+  {
+    "type": "int",
+    "named": false
+  },
+  {
     "type": "int_literal",
     "named": true
+  },
+  {
+    "type": "is",
+    "named": false
   },
   {
     "type": "line_comment",
@@ -2891,16 +3046,64 @@
     "extra": true
   },
   {
-    "type": "none_literal",
-    "named": true
+    "type": "mandatory",
+    "named": false
   },
   {
-    "type": "parent_expression",
-    "named": true
+    "type": "native",
+    "named": false
   },
   {
-    "type": "self_expression",
-    "named": true
+    "type": "new",
+    "named": false
+  },
+  {
+    "type": "none",
+    "named": false
+  },
+  {
+    "type": "parent",
+    "named": false
+  },
+  {
+    "type": "property",
+    "named": false
+  },
+  {
+    "type": "return",
+    "named": false
+  },
+  {
+    "type": "scriptname",
+    "named": false
+  },
+  {
+    "type": "self",
+    "named": false
+  },
+  {
+    "type": "state",
+    "named": false
+  },
+  {
+    "type": "string",
+    "named": false
+  },
+  {
+    "type": "struct",
+    "named": false
+  },
+  {
+    "type": "true",
+    "named": false
+  },
+  {
+    "type": "var",
+    "named": false
+  },
+  {
+    "type": "while",
+    "named": false
   },
   {
     "type": "||",
