@@ -1,0 +1,38 @@
+{
+  "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/config.schema.json",
+  "grammars": [
+    {
+      "name": "papyrus",
+      "camelcase": "Papyrus",
+      "title": "Papyrus",
+      "scope": "source.papyrus",
+      "file-types": [
+        "psc"
+      ],
+      "injection-regex": "^papyrus$",
+      "class-name": "TreeSitterPapyrus"
+    }
+  ],
+  "metadata": {
+    "version": "0.1.0",
+    "license": "MIT",
+    "description": "Scripting language for Bethesda games like Skyrim and Fallout",
+    "authors": [
+      {
+        "name": "BartHageman"
+      }
+    ],
+    "links": {
+      "repository": "https://github.com/tree-sitter/tree-sitter-papyrus"
+    }
+  },
+  "bindings": {
+    "c": true,
+    "go": true,
+    "node": true,
+    "python": true,
+    "rust": true,
+    "swift": true,
+    "zig": false
+  }
+}
